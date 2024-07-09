@@ -35,8 +35,16 @@ export default function UploadContract () {
                     type="text"
                     className="form-control"
                     value={address}
+                    placeholder = "0x..."
+                    disabled = {contractUpload}
+                    onChange={newValue => setAddress(newValue.target.value)}
                 />
             </div>
+            {contractUpload ? null : (
+                <div className="text-center"  >
+
+                </div>
+            )}
         </form>
         </>
     );
