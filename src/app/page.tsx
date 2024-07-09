@@ -7,6 +7,8 @@ import UploadContract from "./components/UploadContract";
 
 export default function Home() {
   const [signer, setSigner] = useState(undefined);
+  const [abi, setAbi] = useState(undefined);
+  const [contract, setContract] = useState(undefined);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-content-center d-flex mt-5 mb-5">
@@ -16,7 +18,9 @@ export default function Home() {
       <h1 id="title" className="fw-bold mt-2">Universal BlockChain App</h1>
       <p id="sub-title" className="mt-4 fw-bold"><span>A FrontEnd interface <br /> for Any Smart Contract </span></p>
       </div>
-      {signer ? <UploadContract /> : <Connect setSigner = {setSigner}/> }
+      {signer ? (
+          <UploadContract signer={signer} abi={abi} contract={contract} /> 
+        ) : <Connect setSigner = {setSigner}/> }
       </div>
     </div>
     </main>
