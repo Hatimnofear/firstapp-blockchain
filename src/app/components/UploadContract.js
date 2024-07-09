@@ -1,13 +1,15 @@
 "use client"
+
 import { useState} from "react";
 
 
 export default function UploadContract () {
     const [abiString, setAbiString] = useState("");
+    const [address, setAddress] = useState("");
     const [contractUpload, setContractUpload] = useState(false);
 
     const updateAbiString = data => {
-
+        setAbiString(data.target.value.trim());
     }
     
     return (
@@ -24,6 +26,15 @@ export default function UploadContract () {
                     placeholder="Copy Paste the Abi of the Smart Contract"
                     disabled={contractUpload}
                     onClick={updateAbiString}
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="address" className="form-label"> Address </label>
+                <input 
+                    name = "address"
+                    type="text"
+                    className="form-control"
+                    value={address}
                 />
             </div>
         </form>
