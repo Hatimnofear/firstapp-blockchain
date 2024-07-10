@@ -1,24 +1,32 @@
 "use client"
 
 import { useState} from "react";
-import { Contracts } from "ethers";
+import { Contract } from "ethers";
 
-export default function UploadContract ({ signer }) {
+export default function UploadContract ({ signer, setAbi, setContract }) {
     const [abiString, setAbiString] = useState("");
     const [address, setAddress] = useState("");
     const [contractUpload, setContractUpload] = useState(false);
+    const [error, setError] = useState(undefined);
 
     const updateAbiString = data => {
+        setError(undefined);
         setAbiString(data.target.value.trim());
     }
 
     const buildUI = e => {
         e.preventDefault();
-        let abiObj = JSON.parse(abiString);
-        const Contract = new Contract(address, abiObj, signer);
-        abiObj = abiObj.filter(element => element.type === "function")
-        setAbi (abiObj);
-        setContract(contract);
+        try {
+            let abiObj = JSON.parse(abiString);
+            const contract = new Contract(address, abiObj, signer);
+            abiObj = abiObj.filter(element => element.type === "function");
+            setAbi (abiObj);
+            setContract(contract);
+            setContractUpload(true);
+        } catch(e) {
+            setError("Not a Valid JSON");
+        }
+
     }
     
     return (
@@ -59,6 +67,7 @@ export default function UploadContract ({ signer }) {
                      </button>
                 </div>
             )}
+            {error && <div className="alert alert-danger mt-3 mb-0"><i class="bi bi-exclamation-triangle-fill"></i>{error}</div>}
         </form>
         </>
     );
